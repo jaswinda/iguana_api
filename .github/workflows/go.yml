@@ -50,5 +50,5 @@ jobs:
         ECR_REPOSITORY: iguana_api
         IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
       run: |
-        docker-compose build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker-compose push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
