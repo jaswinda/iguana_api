@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  database:
+    build: 
+      context: .
+      dockerfile: ./docker/db.Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: iguana
+      MYSQL_ROOT_HOST: '%'
+    container_name: iguana-db
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
+    ports:
+      - 33066:3306
+    volumes:
+      - iguana_db
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 5005:8080
+
+  api:
+    container_name:  "iguana-api"
+    # we want to use the image which is build from our Dockerfile
+    build:
+      context: .
+      dockerfile: ./docker/api.Dockerfile
+    ports:
+      - "9000:9000"
+    # we are depending on the mysql backend
+    depends_on:
+      - database
+    # We mount the working dir into the container, handy for development
+    # This is what makes the hot reloading work inside of a Docker container
+    volumes:
+      - .:/app/
+    env_file: .env
+
+networks:
+  default:
+volumes:
+  iguana_db:
