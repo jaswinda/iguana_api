@@ -50,4 +50,4 @@ jobs:
         ECR_REPOSITORY: iguana_api
         IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
       run: |
-        docker compose up
+        docker compose up -d
