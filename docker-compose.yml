@@ -16,7 +16,7 @@ services:
     ports:
       - 33066:3306
     volumes:
-      - iguana_db
+      - ./data/db:/var/lib/mysql
   adminer:
     image: adminer
     restart: always
