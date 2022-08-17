@@ -14,7 +14,7 @@ services:
     container_name: iguana-db
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
     ports:
-      - 33066:3306
+      - '3306:3306'
     volumes:
       - ./data/db:/var/lib/mysql
   adminer:
@@ -37,10 +37,9 @@ services:
     # We mount the working dir into the container, handy for development
     # This is what makes the hot reloading work inside of a Docker container
     volumes:
-      - .:/app/
-    env_file: .env
+      - ./:/go/src/github.com/iguana-model/iguana
+    env_file: ./.env
 
-networks:
-  default:
+
 volumes:
   iguana_db:

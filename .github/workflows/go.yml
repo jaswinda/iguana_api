@@ -50,4 +50,5 @@ jobs:
         ECR_REPOSITORY: iguana_api
         IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
       run: |
-        docker compose up -d 737750098504.dkr.ecr.us-east-1.amazonaws.com/iguana_api --build
+        docker build -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:{{ env.IMAGE_TAG }} ./docker/api.Dockerfile
+        docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:{{ env.IMAGE_TAG }} ./docker/api.Dockerfile
