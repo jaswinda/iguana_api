@@ -21,7 +21,7 @@ services:
     image: adminer
     restart: always
     ports:
-      - 5005:8080
+      - 5000:8080
 
   api:
     container_name:  "iguana-api"
@@ -30,7 +30,7 @@ services:
       context: .
       dockerfile: ./docker/api.Dockerfile
     ports:
-      - "80:80"
+      - "9000:9000"
     # we are depending on the mysql backend
     depends_on:
       - database
