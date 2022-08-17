@@ -28,7 +28,7 @@ services:
     # we want to use the image which is build from our Dockerfile
     build:
       context: .
-      dockerfile: ./docker/api.Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "9000:9000"
     # we are depending on the mysql backend
