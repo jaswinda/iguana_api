@@ -16,5 +16,6 @@ func main() {
 
 		c.String(http.StatusOK, "Hello to the ")
 	})
+
 	router.Run(":9000")
 }
