@@ -10,8 +10,7 @@ RUN apk update && \
 # prevent the re-installation of vendors at every change in the source code
 ADD . .
 
-RUN go mod download && go mod verify
-
+RUN go mod download
 # Install Compile Daemon for go. We'll use it to watch changes in go files
 RUN go install github.com/githubnemo/CompileDaemon@latest
 

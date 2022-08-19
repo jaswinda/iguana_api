@@ -30,7 +30,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "9000:9000"
+      - "80:8000"
     # we are depending on the mysql backend
     depends_on:
       - database

@@ -10,7 +10,7 @@ func main() {
 	router := gin.Default()
 	router.GET("/welcome", func(c *gin.Context) {
 		firstname := c.DefaultQuery("firstname", "Guest")
-		c.String(http.StatusOK, "Hello %s", firstname)
+		c.String(http.StatusOK, "Hello from jaswindar %s", firstname)
 	})
 	router.GET("/jaswindar", func(c *gin.Context) {
 		firstname := c.DefaultQuery("firstname", "Guest")
