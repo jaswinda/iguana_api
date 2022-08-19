@@ -14,7 +14,7 @@ services:
     container_name: iguana-db
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
     ports:
-      - '3306:3306'
+      - '33066:3306'
     volumes:
       - ./data/db:/var/lib/mysql
   adminer:
@@ -22,6 +22,17 @@ services:
     restart: always
     ports:
       - 5000:8080
+  my-app:
+    image: cosmtrek/air
+    # working_dir value has to be the same of mapped volume
+    working_dir: /project
+    ports:
+      - 8000:8000
+    volumes:
+      - ./data/app:/project
+    links: 
+    - api
+    container_name: my-app
 
   api:
     container_name:  "iguana-api"
