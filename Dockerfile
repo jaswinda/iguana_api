@@ -10,6 +10,8 @@ RUN apk update && \
 # prevent the re-installation of vendors at every change in the source code
 ADD . .
 
+
+
 RUN go mod download
 # Install Compile Daemon for go. We'll use it to watch changes in go files
 RUN go install github.com/githubnemo/CompileDaemon@latest
@@ -28,6 +30,9 @@ RUN set -x \
     && ./migrate -version
 
 RUN cp /tmp/go-migrate/migrate /usr/bin/migrate
+
+#port to expose the service on the host machine
+EXPOSE 80:8000
 
 WORKDIR /iguana_api
 
