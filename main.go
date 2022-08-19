@@ -26,7 +26,7 @@ func main() {
 		c.String(http.StatusOK, "Hello from jaswindar %s", Host)
 	})
 
-	router.Run(":9000")
+	router.Run(":8000")
 }
 func goDotEnvVariable(key string) string {
 
