@@ -12,6 +12,10 @@ func main() {
 		firstname := c.DefaultQuery("firstname", "Guest")
 		c.String(http.StatusOK, "Hello %s", firstname)
 	})
+	router.GET("/jaswindar", func(c *gin.Context) {
+		firstname := c.DefaultQuery("firstname", "Guest")
+		c.String(http.StatusOK, "Hello from jaswindar %s", firstname)
+	})
 	router.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "Hello to the ")
 	})
