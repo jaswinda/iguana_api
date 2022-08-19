@@ -13,9 +13,8 @@ func main() {
 		c.String(http.StatusOK, "Hello %s", firstname)
 	})
 	router.GET("/", func(c *gin.Context) {
-
 		c.String(http.StatusOK, "Hello to the ")
 	})
 
-	router.Run(":9000")
+	router.Run(":8000")
 }
