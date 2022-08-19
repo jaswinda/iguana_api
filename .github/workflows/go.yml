@@ -69,24 +69,24 @@ jobs:
         echo "Pushing to $ECR_REGISTRY/iguana_api_api:$IMAGE_TAG"
         docker push $ECR_REGISTRY/iguana_api_api:$IMAGE_TAG
 
-      - name: Download task definition
-        run: |
-          aws ecs describe-task-definition --task-definition ${{ secrets.ECS_CONTAINER_DEFINITION }} \
-          --query taskDefinition > task-definition.json    
-      - name: Fill in the new app image ID in the Amazon ECS task definition
-        id: iguna-august:23
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: task-definition.json
-          container-name: ${{ secrets.ECS_APP_CONTAINER_NAME }}
-          image: $ECR_REGISTRY/iguana_api_api:$IMAGE_TAG
+    - name: Download task definition
+      run: |
+        aws ecs describe-task-definition --task-definition ${{ secrets.ECS_CONTAINER_DEFINITION }} \
+        --query taskDefinition > task-definition.json    
+    - name: Fill in the new app image ID in the Amazon ECS task definition
+      id: iguna-august
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: task-definition.json
+        container-name: ${{ secrets.ECS_APP_CONTAINER_NAME }}
+        image: $ECR_REGISTRY/iguana_api_api:$IMAGE_TAG
 
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: task-definition.json
-          cluster: august
-          wait-for-service-stability: true
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: task-definition.json
+        cluster: august
+        wait-for-service-stability: true
 
 
 
