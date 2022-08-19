@@ -57,8 +57,36 @@ jobs:
         ECR_REPOSITORY: iguana_api
         IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      
+        # docker tag iguana_api_database:latest $ECR_REGISTRY/iguana_api_database:$IMAGE_TAG
+        # echo "Pushing to $ECR_REGISTRY/iguana_api_database:$IMAGE_TAG"
+        # docker push $ECR_REGISTRY/iguana_api_database:$IMAGE_TAG
+
+        docker-compose build
+        docker tag iguana_api_api:latest $ECR_REGISTRY/iguana_api_api:$IMAGE_TAG
+        echo "Pushing to $ECR_REGISTRY/iguana_api_api:$IMAGE_TAG"
+        docker push $ECR_REGISTRY/iguana_api_api:$IMAGE_TAG
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ secrets.ECS_CONTAINER_DEFINITION }} \
+          --query taskDefinition > task-definition.json    
+      - name: Fill in the new app image ID in the Amazon ECS task definition
+        id: iguna-august:23
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ secrets.ECS_APP_CONTAINER_NAME }}
+          image: $ECR_REGISTRY/iguana_api_api:$IMAGE_TAG
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          cluster: august
+          wait-for-service-stability: true
 
 
 
@@ -72,14 +100,7 @@ jobs:
 
 
         
-        docker-compose build
-        # docker tag iguana_api_database:latest $ECR_REGISTRY/iguana_api_database:$IMAGE_TAG
-        # echo "Pushing to $ECR_REGISTRY/iguana_api_database:$IMAGE_TAG"
-        # docker push $ECR_REGISTRY/iguana_api_database:$IMAGE_TAG
-
-        docker tag iguana_api_api:latest $ECR_REGISTRY/iguana_api_api:$IMAGE_TAG
-        echo "Pushing to $ECR_REGISTRY/iguana_api_api:$IMAGE_TAG"
-        docker push $ECR_REGISTRY/iguana_api_api:$IMAGE_TAG
+       
   
         # echo "::set-output name=appimage::$ECR_REGISTRY/larvel-app:$IMAGE_TAG"
         # echo "::set-output name=webimage::$ECR_REGISTRY/larvel-nginx:$IMAGE_TAG"
