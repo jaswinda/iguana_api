@@ -52,8 +52,8 @@ jobs:
         docker-compose build
         docker tag database:latest $ECR_REGISTRY/database:$IMAGE_TAG
         docker tag api:latest $ECR_REGISTRY/api:$IMAGE_TAG
-        docker push $ECR_REGISTRY/database:$IMAGE_TAG
-        docker push $ECR_REGISTRY/api:$IMAGE_TAG
+        docker push $ECR_REGISTRY/iguana_api_database:$IMAGE_TAG
+        docker push $ECR_REGISTRY/iguana_api_database_api:$IMAGE_TAG
         # echo "setting output values"
         # echo "::set-output name=appimage::$ECR_REGISTRY/larvel-app:$IMAGE_TAG"
         # echo "::set-output name=webimage::$ECR_REGISTRY/larvel-nginx:$IMAGE_TAG"
