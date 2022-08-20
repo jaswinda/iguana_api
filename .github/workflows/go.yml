@@ -86,6 +86,7 @@ jobs:
       with:
         task-definition: task-definition.json
         cluster: august
+        service: iguana-service
         wait-for-service-stability: true
 
 
